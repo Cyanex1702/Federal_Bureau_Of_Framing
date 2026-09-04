@@ -1,0 +1,404 @@
+# Community Non-Commercial License v1.0
+
+Copyright (c) 2026 Cyanex
+
+This Community Non-Commercial License ("License") governs the use, modification, and distribution of the software, source code, documentation, assets, and other materials made available under this License (collectively, the "Software").
+
+By using, copying, modifying, or distributing the Software, You agree to the terms of this License.
+
+## 1. Definitions
+
+**"Copyright Holder"** means Cyanex.
+
+**"You"** means any individual or legal entity exercising rights under this License.
+
+**"Non-Commercial Use"** means use that is not primarily intended for, directed toward, or connected with monetary compensation, revenue generation, commercial advantage, or the operation of a for-profit business.
+
+**"Commercial Use"** includes, without limitation:
+
+- selling, licensing, renting, leasing, or otherwise charging for the Software;
+- offering the Software, or functionality substantially derived from it, as a paid product, service, subscription, hosted service, cloud service, or Software-as-a-Service (SaaS);
+- incorporating the Software into a commercial product or paid service;
+- using the Software to provide paid services, consulting, development, hosting, support, or other services to third parties;
+- using the Software as part of the internal operations of a for-profit business where it provides material business or commercial benefit;
+- distributing the Software as part of a product or service for which payment or other commercial consideration is received;
+- using the Software primarily to generate advertising, subscription, transaction, licensing, or other revenue;
+- using the Software to gain a direct or indirect commercial advantage; or
+- otherwise using the Software for commercial gain.
+
+Receiving voluntary donations that are not required in exchange for access to the Software does not, by itself, constitute Commercial Use.
+
+## 2. Grant of Permission
+
+Subject to the terms of this License, Cyanex grants You a worldwide, royalty-free, non-exclusive, non-transferable license to:
+
+1. use and run the Software for personal, educational, academic, research, evaluation, hobby, and other Non-Commercial Uses;
+2. inspect and study the source code;
+3. modify the Software for Non-Commercial Use;
+4. create derivative works based on the Software for Non-Commercial Use;
+5. contribute modifications, fixes, improvements, documentation, or other changes to the Software; and
+6. copy and redistribute the Software or modified versions of the Software solely for Non-Commercial Use.
+
+No rights are granted for Commercial Use except as expressly authorized in writing by Cyanex.
+
+## 3. Conditions on Redistribution
+
+If You copy, redistribute, publish, or otherwise make the Software or a modified version available to others, You must:
+
+- include this License in its entirety;
+- preserve all copyright, attribution, authorship, and legal notices;
+- clearly indicate if You have modified the Software;
+- not imply that Your modified version is an official version approved or endorsed by Cyanex unless You have written permission to do so; and
+- distribute the Software only under terms consistent with this License.
+
+You may not impose additional terms that grant recipients Commercial Use rights to the Software.
+
+## 4. Commercial Use
+
+Commercial Use of the Software is prohibited unless You have received prior written authorization or a separate commercial license from Cyanex.
+
+A commercial license may grant rights not provided by this License, including, but not limited to:
+
+- commercial deployment;
+- internal business use;
+- SaaS or hosted use;
+- incorporation into commercial products;
+- redistribution in commercial products;
+- paid customer services;
+- proprietary modifications;
+- sublicensing;
+- enterprise use;
+- commercial support; or
+- other negotiated commercial rights.
+
+Commercial licensing terms, including fees, royalties, revenue-sharing arrangements, usage limits, support terms, or other conditions, may be negotiated separately.
+
+Permission granted to one person or organization does not grant Commercial Use rights to any other person or organization.
+
+For commercial licensing inquiries:
+
+**Email:** maliksaad277@email.com  
+**GitHub:** https://github.com/Cyanex1702
+
+## 5. No Trademark or Branding Rights
+
+This License does not grant permission to use Cyanex's names, trademarks, service marks, logos, project names, branding, visual identity, or other identifiers except as reasonably necessary to identify the origin of the Software.
+
+You may not use such identifiers in a way that suggests sponsorship, affiliation, approval, certification, or endorsement by Cyanex without prior written permission.
+
+You may not present a fork, derivative work, modified version, or independent project as an official Cyanex product unless expressly authorized in writing.
+
+## 6. Ownership
+
+The Software is licensed, not sold.
+
+Except for the limited rights expressly granted under this License, all rights, title, and interest in and to the Software remain with Cyanex and any applicable third-party copyright holders.
+
+Nothing in this License transfers ownership of the Software or any associated intellectual property rights to You.
+
+All rights not expressly granted under this License are reserved.
+
+## 7. Contributions
+
+Unless otherwise agreed in writing, by intentionally submitting a contribution for inclusion in the Software, You represent that:
+
+- You have the legal right to submit the contribution;
+- the contribution does not knowingly violate the intellectual property rights of another party; and
+- You are authorized to grant the rights described in this section.
+
+You grant Cyanex a perpetual, worldwide, non-exclusive, irrevocable, royalty-free license to:
+
+- use;
+- reproduce;
+- modify;
+- adapt;
+- distribute;
+- publish;
+- publicly display;
+- publicly perform;
+- sublicense;
+- incorporate;
+- commercially exploit; and
+- relicense
+
+Your contribution as part of the Software, related projects, derivative works, commercial editions, proprietary editions, or other products and services.
+
+This includes the right for Cyanex to distribute Your contribution under commercial, proprietary, open-source, source-available, or other licensing terms.
+
+You retain ownership of any copyright You hold in Your contribution.
+
+Submitting a contribution does not entitle You to compensation, royalties, ownership in the Software, ownership in Cyanex, commercial licensing revenue, or any other financial benefit unless separately agreed in writing.
+
+## 8. Forks and Modified Versions
+
+You may create and distribute forks or modified versions of the Software for Non-Commercial Use, subject to this License.
+
+Modified versions must not:
+
+- be presented as the original or official Software;
+- falsely claim endorsement or approval by Cyanex;
+- use Cyanex's trademarks, project names, logos, or branding in a misleading manner;
+- remove copyright, attribution, authorship, or licensing notices;
+- grant rights that exceed those provided by this License; or
+- be used for Commercial Use without written authorization from Cyanex.
+
+You are responsible for clearly distinguishing modified versions from official versions of the Software.
+
+Cyanex is not responsible for forks, modifications, derivative works, unofficial builds, or redistributions created by third parties.
+
+## 9. Prohibited Uses
+
+Except where separately authorized in writing by Cyanex, You may not:
+
+- use the Software for Commercial Use;
+- sell, sublicense, rent, lease, or commercially redistribute the Software;
+- offer the Software as a paid hosted service or SaaS product;
+- include the Software in a paid commercial product or service;
+- use the Software to provide paid services to customers;
+- remove, conceal, or alter copyright, attribution, authorship, or licensing notices;
+- misrepresent the origin or authorship of the Software;
+- falsely claim ownership of portions of the Software You did not create;
+- use Cyanex's identity, branding, project names, or logos to imply endorsement;
+- circumvent or attempt to circumvent the restrictions of this License;
+- knowingly assist another person or organization in violating this License; or
+- grant commercial rights to the Software that You do not possess.
+
+## 10. Third-Party Components
+
+The Software may contain, include, bundle, interface with, or depend upon third-party:
+
+- software;
+- libraries;
+- frameworks;
+- models;
+- datasets;
+- fonts;
+- APIs;
+- media;
+- documentation;
+- assets; or
+- other materials.
+
+Those third-party materials remain subject to their respective licenses, terms, and conditions.
+
+This License applies only to material for which Cyanex has the legal authority to grant rights.
+
+Nothing in this License overrides the licensing terms of third-party components.
+
+You are responsible for complying with any applicable third-party licenses when using or distributing the Software.
+
+## 11. Separate Commercial Licensing
+
+Cyanex may offer separate commercial licenses for the Software.
+
+A commercial license may provide additional rights, including rights for:
+
+- companies;
+- organizations;
+- startups;
+- commercial developers;
+- SaaS providers;
+- hosting providers;
+- enterprise users;
+- agencies;
+- consultants;
+- paid service providers; or
+- other commercial users.
+
+Commercial licenses may contain separate fees, royalties, usage limits, deployment restrictions, support arrangements, redistribution rights, or other negotiated terms.
+
+A commercial license must be granted in writing by Cyanex.
+
+## 12. Alternative Licensing
+
+Cyanex may offer or distribute the Software under different licenses or licensing models.
+
+Nothing in this License restricts Cyanex's ability to:
+
+- commercially license the Software;
+- dual-license or multi-license the Software;
+- release proprietary editions;
+- release enterprise editions;
+- release future versions under different terms;
+- provide additional permissions;
+- enter into private licensing agreements;
+- provide paid hosting;
+- provide paid development;
+- provide paid support;
+- provide consulting services; or
+- otherwise commercially exploit the Software.
+
+A separate written agreement between You and Cyanex may override specific provisions of this License for You.
+
+## 13. Future Versions of This License
+
+Cyanex may publish revised or updated versions of this License.
+
+Unless explicitly stated otherwise, Software released under a specific version of this License remains governed by that version.
+
+The publication of a new version of this License does not automatically change the terms governing earlier releases.
+
+Cyanex may choose to release future versions of the Software under a newer version of this License or under different licensing terms.
+
+## 14. Compliance with Law
+
+You are responsible for ensuring that Your use of the Software complies with all laws, regulations, rules, and legal obligations applicable to You.
+
+This License does not grant permission to use the Software in any manner prohibited by applicable law.
+
+No provision of this License requires any party to violate applicable law.
+
+## 15. Termination
+
+Your rights under this License terminate automatically if You materially violate its terms.
+
+Upon termination, You must immediately cease exercising the rights granted under this License.
+
+Where reasonably practicable, You must also cease distributing unauthorized copies or modified versions of the Software.
+
+Termination does not affect:
+
+- rights previously granted by Cyanex to other parties;
+- separate commercial licenses;
+- provisions of this License that by their nature should survive termination; or
+- any rights or remedies available to Cyanex under applicable law.
+
+Sections relating to ownership, contributions, disclaimers, limitations of liability, commercial restrictions, and other provisions intended to survive termination will continue to apply.
+
+Cyanex may, at its sole discretion, restore Your rights after a violation has been corrected.
+
+## 16. Enforcement
+
+Failure by Cyanex to immediately enforce any provision of this License does not waive Cyanex's right to enforce that provision later.
+
+No delay, omission, or failure to exercise a right under this License constitutes a permanent waiver of that right.
+
+A waiver is effective only if expressly provided in writing by Cyanex.
+
+## 17. Disclaimer of Warranty
+
+THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, CYANEX DISCLAIMS ALL WARRANTIES, INCLUDING, WITHOUT LIMITATION, WARRANTIES OF:
+
+- MERCHANTABILITY;
+- FITNESS FOR A PARTICULAR PURPOSE;
+- TITLE;
+- NON-INFRINGEMENT;
+- ACCURACY;
+- RELIABILITY;
+- SECURITY;
+- PERFORMANCE;
+- AVAILABILITY;
+- COMPATIBILITY; AND
+- FITNESS FOR ANY PARTICULAR USE.
+
+THERE IS NO WARRANTY THAT THE SOFTWARE WILL BE ERROR-FREE, SECURE, UNINTERRUPTED, COMPLETE, COMPATIBLE WITH ANY PARTICULAR SYSTEM, OR SUITABLE FOR ANY PARTICULAR PURPOSE.
+
+YOU USE THE SOFTWARE ENTIRELY AT YOUR OWN RISK.
+
+## 18. Limitation of Liability
+
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, IN NO EVENT SHALL CYANEX, THE COPYRIGHT HOLDER, CONTRIBUTORS, AUTHORS, OR DISTRIBUTORS BE LIABLE FOR ANY:
+
+- DIRECT DAMAGES;
+- INDIRECT DAMAGES;
+- INCIDENTAL DAMAGES;
+- SPECIAL DAMAGES;
+- EXEMPLARY DAMAGES;
+- PUNITIVE DAMAGES;
+- CONSEQUENTIAL DAMAGES;
+- LOSS OF PROFITS;
+- LOSS OF REVENUE;
+- LOSS OF DATA;
+- LOSS OF BUSINESS;
+- LOSS OF GOODWILL;
+- LOSS OF OPPORTUNITY;
+- LOSS OF SAVINGS;
+- BUSINESS INTERRUPTION;
+- SERVICE INTERRUPTION;
+- SECURITY INCIDENT;
+- DATA CORRUPTION; OR
+- OTHER LOSS OR DAMAGE
+
+ARISING OUT OF OR RELATED TO THE SOFTWARE, THIS LICENSE, OR THE USE OR INABILITY TO USE THE SOFTWARE.
+
+THIS LIMITATION APPLIES WHETHER THE CLAIM IS BASED ON CONTRACT, TORT, NEGLIGENCE, STRICT LIABILITY, STATUTE, OR ANY OTHER LEGAL THEORY, EVEN IF CYANEX HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+## 19. Indemnification
+
+To the maximum extent permitted by applicable law, You are responsible for Your use, modification, redistribution, deployment, and operation of the Software.
+
+You agree that Cyanex is not responsible for claims arising from unauthorized, unlawful, misleading, or otherwise improper use of the Software by You.
+
+Nothing in this section creates an indemnification obligation where such an obligation would be prohibited by applicable law.
+
+## 20. Severability
+
+If any provision of this License is determined by a court or other competent authority to be invalid, illegal, or unenforceable, that provision shall be interpreted or limited to the minimum extent necessary to make it enforceable where possible.
+
+The remaining provisions of this License shall continue in full force and effect.
+
+## 21. No Waiver
+
+Failure by Cyanex to enforce any provision of this License does not constitute a waiver of:
+
+- that provision;
+- any other provision; or
+- Cyanex's right to enforce the provision in the future.
+
+Any waiver must be expressly provided in writing.
+
+## 22. No Agency or Partnership
+
+Nothing in this License creates any:
+
+- partnership;
+- joint venture;
+- employment relationship;
+- agency relationship;
+- franchise relationship; or
+- other formal business relationship
+
+between You and Cyanex.
+
+You have no authority to represent, bind, or make commitments on behalf of Cyanex.
+
+## 23. Entire License
+
+This License constitutes the complete licensing terms governing the rights granted under the Community Non-Commercial License v1.0 unless You and Cyanex enter into a separate written agreement.
+
+No oral statement, informal conversation, social media post, issue comment, pull request discussion, README statement, documentation statement, email discussion, or other communication modifies this License unless Cyanex expressly agrees to the modification in writing.
+
+## 24. Reserved Rights
+
+All rights not expressly granted under this License are reserved by Cyanex.
+
+No implied licenses or rights are granted.
+
+Possession of a copy of the Software does not grant rights beyond those expressly provided in this License.
+
+## 25. Contact
+
+For commercial licensing, commercial deployment, special permissions, exceptions, partnerships, enterprise licensing, or other licensing inquiries:
+
+**Copyright Holder:** Cyanex
+
+**Email:** maliksaad277@email.com
+
+**GitHub:** https://github.com/Cyanex1702
+
+---
+
+# Community Non-Commercial License v1.0
+
+Copyright (c) 2026 Cyanex
+
+Personal, educational, academic, research, evaluation, hobby, and other non-commercial use is permitted subject to the terms of this License.
+
+Commercial use is not permitted without prior written authorization or a separate commercial license from Cyanex.
+
+Commercial licensing inquiries:
+
+Email: maliksaad277@email.com  
+GitHub: https://github.com/Cyanex1702
