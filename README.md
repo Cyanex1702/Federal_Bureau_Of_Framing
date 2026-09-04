@@ -1,12 +1,521 @@
-# Federal Bureau of Framing — V7.3.1
+<div align="center">
 
-V6 is the universal appliance-normalization version of the project.
+# 🖼️ Federal Bureau of Framing
 
-It is designed for **coffee machines, refrigerators, water heaters, air conditioners, hobs, hoods, ovens, dishwashers, freezers, small appliances, commercial equipment, and other product categories**.
+### Product Image Audit & Normalization Tool
 
-Coffee machines were the main V6 debugging dataset, but the architecture is intentionally category-independent.
+**Audit, normalize, compare, manually finish, and export product imagery with repeatable catalogue framing.**
+
+[![Version](https://img.shields.io/badge/version-7.3.1-0A84FF?style=for-the-badge)](#release-history)
+[![Python](https://img.shields.io/badge/Python-application-3776AB?style=for-the-badge&logo=python&logoColor=white)](#quick-start)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.56%2B-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](#requirements)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white)](#quick-start)
+[![License](https://img.shields.io/badge/license-Community%20Non--Commercial%20v1.0-6f42c1?style=for-the-badge)](#license)
+
+**Current release:** `V7.3.1` · **Default catalogue mode:** `Amazon A — Square 1:1` · **Human-in-the-loop:** built in
+
+</div>
 
 ---
+
+## Overview
+
+**Federal Bureau of Framing (FBF)** is a local product-image audit and normalization application designed to bring inconsistent catalogue photography into a repeatable visual standard.
+
+It can inspect a **single product**, a **catalogue page**, or a **multi-page category**, identify framing problems, generate normalized replacements, expose filtered/skipped products for review, let an operator finish difficult images manually, and export both management-friendly and engineering-grade audit packages.
+
+The project began with coffee-machine imagery, but the normalization model is intentionally **category-independent** and now supports a broad range of appliance and commercial-product layouts.
+
+> **Core principle:** scale the correct product structure, align the correct visual reference, preserve the complete sold/visible extent, and keep the final composition inside a safe catalogue frame.
+
+### Jump to
+
+[How it works](#how-it-works) ·
+[Capabilities](#capabilities) ·
+[Framing model](#framing-model) ·
+[Product Editor](#product-editor) ·
+[Audit & reports](#audit--reports) ·
+[Quick start](#quick-start) ·
+[Project structure](#project-structure) ·
+[License](#license) ·
+[Release history](#release-history)
+
+---
+
+## At a glance
+
+| Area | Current behavior |
+|---|---|
+| **Current version** | `V7.3.1` |
+| **Default output mode** | Amazon A — square `1:1` |
+| **Reference canvas** | `1000 × 1000` |
+| **Default safe padding** | `4%` |
+| **Crop controls** | `0–45%` per side |
+| **Editor history** | Up to `60` draft states per product |
+| **Scanner concurrency** | Up to `6` image-download workers |
+| **UI runtime** | Streamlit `1.56+` |
+| **Primary workflows** | Single product · catalogue page · multi-page audit |
+| **Review decisions** | Automatic · Original image · Edited image · Complete rework |
+| **License** | Community Non-Commercial License v1.0 |
+
+---
+
+## How it works
+
+```mermaid
+flowchart LR
+    A["Product URL<br/>or catalogue page"] --> B["Page scout"]
+    B --> C{"Verified listing<br/>membership?"}
+    C -- No --> X["Filtered Product Inspector"]
+    X -->|Manual include| C
+    C -- Yes --> D["Category gate<br/>+ product classification"]
+    D --> E["Foreground segmentation<br/>+ connected components"]
+    E --> F["Primary body<br/>+ full visible extent"]
+    F --> G["Profile · subtype<br/>· archetype"]
+    G --> H["3-signal audit"]
+    H --> I["Normalizer"]
+    I --> J["Page Showcase"]
+    J --> K["Product Editor"]
+    K --> L["Applied edit registry"]
+    L --> M["CSV · XLSX · HTML<br/>image ZIP · page export"]
+```
+
+### The three audit signals
+
+FBF does not rely on a single page median. Current auditing combines:
+
+1. **Peer consistency** — comparison against compatible products on the page.
+2. **Canonical framing sanity** — comparison against broader category/profile expectations.
+3. **Normalizer agreement** — checks whether the actual normalizer would materially scale or move the source image.
+
+This reduces false passes when a peer group is too small, several products share the same bad framing, or a narrow/tall product looks acceptable to a single-axis check.
+
+---
+
+## Visual framing model
+
+FBF separates two concepts that are easy to confuse:
+
+| Concept | Purpose |
+|---|---|
+| **Primary body / structural group** | Determines the meaningful product scale |
+| **Full visible extent** | Protects the complete visible composition from cropping |
+| **Scale basis** | Answers: *how large should the product appear?* |
+| **Alignment reference** | Answers: *what visible envelope should be centered/aligned?* |
+
+```mermaid
+flowchart TB
+    S["Source image"] --> SEG["Foreground segmentation"]
+    SEG --> PB["Primary body / structural group"]
+    SEG --> FE["Full visible extent"]
+    PB --> SCALE["Scale target"]
+    FE --> SAFE["Crop / edge safety"]
+    SCALE --> ALIGN["Category-aware alignment"]
+    SAFE --> ALIGN
+    ALIGN --> OUT["Canonical square catalogue image"]
+```
+
+### Amazon A — default square standard
+
+On a `1000 × 1000` output, the documented default targets are:
+
+```mermaid
+flowchart LR
+    G["Geometry profile"] --> T["Tall<br/>880 px height"]
+    G --> B["Boxy<br/>840 px envelope"]
+    G --> W["Wide<br/>900 px width"]
+    G --> F["Flat<br/>900 px width"]
+    G --> C["Compact<br/>800 px envelope"]
+```
+
+Only **proportional scaling** is used; products are not stretched or squashed.
+
+---
+
+## Capabilities
+
+### 🔎 Detection & page scouting
+
+- Entire catalogue/category-page scanning
+- Single-product inspection from a direct product URL
+- Server-rendered product-card discovery
+- Product JSON-LD enrichment
+- Exact page-membership verification
+- Same-origin automatic pagination discovery
+- Category-aware filtering
+- Mixed-page category-gate detection
+- Filtered-product inspection
+- Manual include overrides
+- Direct product links in reports
+- Duplicate-image download suppression
+- Bounded concurrent image fetching
+
+### 🎯 Normalization
+
+- Primary-body-aware scaling
+- Full-visible-extent crop safety
+- Structural subtypes
+- Geometric profiles
+- Multipart-product handling
+- Accessory-heavy compositions
+- Bundle-layout handling
+- Visual-mass centering
+- Exact integer-pixel size locking
+- Category-aware alignment defaults
+- Standard / strict page-calibrated modes
+- Per-product body interpretation
+- Per-product alignment reference
+- Global fine tuning
+- Remembered product exceptions
+
+### 🧑‍⚖️ Human review
+
+- Page Showcase
+- Original ↔ fixed comparison
+- Keep Original / undo
+- Use Fixed / edited output
+- Complete Rework flag
+- Per-card Tune action
+- Stencil reference workflow
+- Selected-page showcase caching
+- Stable per-page scroll restoration
+
+### 🎛️ Product Editor
+
+The dedicated editor is designed for the final edge cases automation should not silently decide.
+
+It supports:
+
+- direct product dragging
+- proportional zoom/resize
+- horizontal and vertical movement
+- body interpretation
+- centering/alignment mode
+- baseline adjustment
+- stencil/ghost overlay
+- crop left/right/top/bottom
+- undo/redo
+- live draft preview
+- Apply
+- Apply + remember
+- remembered-tuning suggestions
+- immediate Page Showcase state synchronization
+
+Remembered tuning is product-specific and is **never silently applied**.
+
+---
+
+## Audit & reports
+
+FBF supports both operator review and management/engineering handoff.
+
+```mermaid
+flowchart TB
+    AUDIT["Advanced Audit"] --> SIMPLE["Boss SIMPLE CSV"]
+    AUDIT --> TECH["Advanced TECHNICAL CSV"]
+    AUDIT --> XLSX["Visual Excel<br/>with embedded images"]
+    AUDIT --> HTML["Visual HTML report"]
+    AUDIT --> IMG["Images + issue data ZIP"]
+    AUDIT --> MASTER["Persistent master audit"]
+
+    IMG --> REVIEW["01_NEEDS_REVIEW"]
+    IMG --> PASS["02_PASSED"]
+    IMG --> ALL["03_ALL_PRODUCTS"]
+```
+
+### Report formats
+
+| Output | Best for |
+|---|---|
+| **Boss SIMPLE CSV** | Management review and concise issue tracking |
+| **Advanced TECHNICAL CSV** | Engineering/debugging diagnostics |
+| **Visual Excel** | Spreadsheet review with embedded current/fixed imagery |
+| **Visual HTML report** | Human-readable visual QA |
+| **Images + issue data ZIP** | Production/design handoff |
+| **Filtered products CSV** | Reviewing products excluded before CV analysis |
+| **Showcase images ZIP** | Fast export of exactly what Page Showcase displays |
+| **Page normalization package** | Final normalized images + previews + manifest |
+
+### Image review package
+
+```text
+01_NEEDS_REVIEW/
+02_PASSED/
+03_ALL_PRODUCTS/
+PACKAGE_MANIFEST.csv
+```
+
+Flagged product folders can include:
+
+```text
+01_ORIGINAL.png
+02_FIXED.png
+03_BEFORE_AFTER.jpg
+issue_and_fix.txt
+fix_prompt.txt
+```
+
+A **COMPLETE REWORK** product intentionally omits a generated fixed image and carries a replacement brief instead.
+
+---
+
+## Example before / after
+
+The repository structure documented by the project includes `sample_input.png` and `sample_output.png`, so the README can display them directly when those files are present:
+
+| Source | Normalized |
+|:---:|:---:|
+| ![Sample source image](sample_input.png) | ![Sample normalized image](sample_output.png) |
+
+---
+
+## Supported product families
+
+The built-in mappings documented across the V6/V7 development history include:
+
+| Kitchen & beverage | Cooling & climate | Cleaning & laundry | Other |
+|---|---|---|---|
+| Coffee machine | Refrigerator | Dishwasher | Cart / trolley |
+| Blender | Freezer | Laundry equipment | Water dispenser |
+| Kettle | Air conditioner | Vacuum cleaner workflows | Ice machine |
+| Microwave |  |  |  |
+| Oven |  |  |  |
+| Hob / Cooktop |  |  |  |
+| Hood |  |  |  |
+| Water heater |  |  |  |
+
+Mixed Home Appliances pages can also classify individual product families such as **juicers, waffle makers, ice-cream makers, and citrus presses** when product-level evidence is available.
+
+> Adding another category generally means adding a category → geometry/framing preference, not writing an entirely new image-processing algorithm.
+
+---
+
+## Recommended workflow
+
+```mermaid
+flowchart TD
+    A["1 · Launch FBF"] --> B["2 · Choose Detection Test"]
+    B --> C{"Scope"}
+    C -->|"One item"| D["Single product URL"]
+    C -->|"Catalogue"| E["Category/listing URL"]
+    E --> F["Scan page / pagination"]
+    D --> G["Review audit result"]
+    F --> G
+    G --> H["Inspect filtered products"]
+    H --> I["Open Page Showcase"]
+    I --> J["Normalize every image"]
+    J --> K["Review changed products"]
+    K --> L{"Needs manual finish?"}
+    L -- Yes --> M["Product Editor"]
+    M --> N["Apply / Apply + remember"]
+    L -- No --> O["Approve final choice"]
+    N --> O
+    O --> P["Refresh reports"]
+    P --> Q["Export CSV / Excel / HTML / ZIP"]
+```
+
+For a website-wide audit, repeat the scan by top-level category/subcategory while keeping results in the persistent master audit.
+
+---
+
+## Quick start
+
+### Windows — easiest
+
+Double-click:
+
+```text
+RUN_APP.bat
+```
+
+The launcher handles the project directory, Python checks, virtual-environment creation, requirements checks, and application startup.
+
+The application normally opens at:
+
+```text
+http://localhost:8501
+```
+
+Keep the Command Prompt window open while using FBF. Press `Ctrl+C` to stop the app.
+
+### Manual Windows setup
+
+```bat
+python -m venv .venv
+.venv\Scripts\activate
+python -m pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Using:
+
+```bat
+python -m streamlit run app.py
+```
+
+is preferred over:
+
+```bat
+streamlit run app.py
+```
+
+to avoid common Windows PATH issues.
+
+### Optional AI background removal
+
+```bat
+.venv\Scripts\activate
+python -m pip install rembg onnxruntime
+python -m streamlit run app.py
+```
+
+---
+
+## Requirements
+
+- Windows
+- Python
+- Streamlit `1.56+` for the current V7.2.2+ interface APIs
+- Packages from `requirements.txt`
+- `requirements-dev.txt` for development regression tests
+
+### Development tests
+
+```bat
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
+
+V7.3.0 added a focused reliability/security regression-test pass. See:
+
+```text
+RELIABILITY_REPORT_V7_3_0.md
+```
+
+for documented root causes, compatibility notes, security considerations, and manual QA items.
+
+---
+
+## Reliability & security
+
+V7.3.x includes hardening around the parts of the app that touch URLs, files, exports, and persistent operator state.
+
+Highlights include:
+
+- transactional Product Editor Apply behavior
+- stable product identifiers for audit media directories
+- SSRF-aware URL/DNS/redirect validation
+- request timeouts and response-size limits
+- bounded image-download concurrency
+- export-path containment under `audit_data/`
+- path traversal / absolute escape / symlink escape rejection
+- XLSX untrusted-string handling as text
+- disabled workbook formula auto-detection
+- `N/A` / failed status for pages with zero successful analyses
+- canonical-identity master-audit deduplication
+- backup/preservation of corrupted remembered-tuning JSON
+- deterministic remembered-tuning lookup
+- shared Windows-safe path sanitization
+- one runtime source of truth for profile configuration
+
+---
+
+## Project structure
+
+```text
+product_image_normalizer_app/
+├── app.py
+├── normalizer.py
+├── page_detector.py
+├── profile_config.py
+├── profiles.json
+├── requirements.txt
+├── requirements-dev.txt
+├── README.md
+├── RUN_APP.bat
+├── Dockerfile
+├── sample_input.png
+├── sample_output.png
+├── tests/
+└── audit_data/
+    ├── master_audit.csv
+    └── product_exception_library.json
+```
+
+Some files were added after the original V6 structure; the list above combines the documented core layout with later V7 runtime/test artifacts.
+
+---
+
+## Current release — V7.3.1
+
+`V7.3.1` fixes a Streamlit runtime crash in the filtered-product manual-include workflow.
+
+The problematic path used:
+
+```python
+st.rerun(scope="fragment")
+```
+
+from a helper that was **not** itself an `@st.fragment` function. Current Streamlit rejects that layout context.
+
+The fix uses a normal:
+
+```python
+st.rerun()
+```
+
+because manually including a previously filtered product mutates the underlying Detection/Advanced Audit scan and requires the surrounding workspace to refresh.
+
+A structural regression test now checks that future `scope="fragment"` reruns are only placed inside fragment-decorated functions.
+
+---
+
+## License
+
+Federal Bureau of Framing is distributed under the **Community Non-Commercial License v1.0**.
+
+You may use, inspect, study, modify, create derivative works from, and redistribute the software **for permitted non-commercial use**, subject to the license terms.
+
+**Commercial use is not permitted without prior written authorization or a separate commercial license from Cyanex.** This includes commercial deployment, paid SaaS/hosting, incorporation into commercial products, paid customer services, and qualifying internal for-profit business use.
+
+See [`LICENSE`](LICENSE) for the complete terms.
+
+**Commercial licensing**
+
+- Copyright holder: **Cyanex**
+- Email: `maliksaad277@email.com`
+- GitHub: `https://github.com/Cyanex1702`
+
+> Third-party components remain subject to their own licenses and terms.
+
+---
+
+## Release history
+
+The main README above describes the current V7.3.1 experience. The full technical evolution is preserved below for debugging, regression context, and implementation history.
+
+### Release evolution
+
+```mermaid
+flowchart LR
+    V6["V6<br/>Universal product model"] --> V63["V6.3<br/>Advanced audit"]
+    V63 --> V64["V6.4<br/>Pagination + visual packages"]
+    V64 --> V65["V6.5<br/>Reporting + audit accuracy"]
+    V65 --> V66["V6.6<br/>Mixed pages + composition"]
+    V66 --> V67["V6.7<br/>Single product + memory"]
+    V67 --> V68["V6.8<br/>Showcase editor"]
+    V68 --> V69["V6.9<br/>Amazon A mode"]
+    V69 --> V610["V6.10<br/>Image review package"]
+    V610 --> V71["V7.1<br/>Human review + editor"]
+    V71 --> V72["V7.2<br/>Crop + state reliability"]
+    V72 --> V73["V7.3<br/>Security + regression tests"]
+    V73 --> V731["V7.3.1<br/>Filtered inspector hotfix"]
+```
+
+<details>
+<summary><strong>📚 Expand legacy V6 core architecture & operator guide</strong></summary>
+
+<br>
 
 # What changed in V6
 
@@ -643,8 +1152,12 @@ It is:
 
 That principle is what allows the same V6 engine to work across the rest of the website.
 
+</details>
 
----
+<details>
+<summary><strong>🧾 Expand complete V6.1 → V7.3.1 technical release notes</strong></summary>
+
+<br>
 
 # V6.1 Bugfix Update
 
@@ -3072,7 +3585,43 @@ streamlit>=1.56
 
 The Windows launcher verifies that both `st.fragment` and `st.iframe` are
 available before starting the app.
-\n\n---\n\n# V7.3.0 — Reliability, Security & Regression-Test Pass\n\nV7.3.0 is a focused reliability/security release. It preserves the established\nnormalization geometry for valid inputs while fixing state, persistence, export,\nscanner, filename, scoring and configuration-consistency problems.\n\nKey changes:\n\n- Product Editor Apply is transactional: normalization/validation happens before committed state changes.\n- Audit media directories use a stable product identifier so duplicate display names cannot overwrite one another.\n- Web requests use SSRF-aware URL/DNS/redirect validation, timeouts, response-size limits and bounded concurrent image downloading.\n- Export ZIP media references are constrained to `audit_data/`; traversal, absolute escapes and symlink escapes are skipped.\n- XLSX untrusted strings are explicitly written as text and workbook formula auto-detection is disabled.\n- Pages with zero successful analyses receive `N/A` score and `failed` status rather than 100/100.\n- Master-audit append deduplicates both incoming batches and existing records using canonical product identity.\n- Corrupted remembered-tuning JSON is preserved/backed up and normal writes are blocked instead of destroying history.\n- Remembered-tuning lookup is deterministic: exact URL first, then exact-name fallback, newest record within the same match level.\n- Editor reset synchronization includes scale, X/Y, baseline, crop, body/anchor mode, product, category, canvas and normalization mode.\n- `profile_config.py` is the runtime source of truth; `profiles.json` is generated from it.\n- One Windows-safe path sanitizer is shared by audit storage and application exports.\n- Crop range is consistently 0–45% in Python, persistence and the browser editor.\n- Scanner image fetching uses at most six workers and downloads each identical image URL once per scan.\n- Failed Detection/Advanced Audit retries keep the previous successful result.\n\nDevelopment regression tests are in `tests/`. Install `requirements-dev.txt` and run:\n\n```text\npython -m pytest -q\n```\n\nSee `RELIABILITY_REPORT_V7_3_0.md` for root causes, test coverage, compatibility notes,\nremaining security considerations and browser-level manual QA items.\n
+
+
+---
+
+# V7.3.0 — Reliability, Security & Regression-Test Pass
+
+V7.3.0 is a focused reliability/security release. It preserves the established
+normalization geometry for valid inputs while fixing state, persistence, export,
+scanner, filename, scoring and configuration-consistency problems.
+
+Key changes:
+
+- Product Editor Apply is transactional: normalization/validation happens before committed state changes.
+- Audit media directories use a stable product identifier so duplicate display names cannot overwrite one another.
+- Web requests use SSRF-aware URL/DNS/redirect validation, timeouts, response-size limits and bounded concurrent image downloading.
+- Export ZIP media references are constrained to `audit_data/`; traversal, absolute escapes and symlink escapes are skipped.
+- XLSX untrusted strings are explicitly written as text and workbook formula auto-detection is disabled.
+- Pages with zero successful analyses receive `N/A` score and `failed` status rather than 100/100.
+- Master-audit append deduplicates both incoming batches and existing records using canonical product identity.
+- Corrupted remembered-tuning JSON is preserved/backed up and normal writes are blocked instead of destroying history.
+- Remembered-tuning lookup is deterministic: exact URL first, then exact-name fallback, newest record within the same match level.
+- Editor reset synchronization includes scale, X/Y, baseline, crop, body/anchor mode, product, category, canvas and normalization mode.
+- `profile_config.py` is the runtime source of truth; `profiles.json` is generated from it.
+- One Windows-safe path sanitizer is shared by audit storage and application exports.
+- Crop range is consistently 0–45% in Python, persistence and the browser editor.
+- Scanner image fetching uses at most six workers and downloads each identical image URL once per scan.
+- Failed Detection/Advanced Audit retries keep the previous successful result.
+
+Development regression tests are in `tests/`. Install `requirements-dev.txt` and run:
+
+```text
+python -m pytest -q
+```
+
+See `RELIABILITY_REPORT_V7_3_0.md` for root causes, test coverage, compatibility notes,
+remaining security considerations and browser-level manual QA items.
+
 
 ---
 
@@ -3098,4 +3647,17 @@ surrounding workspace must refresh as well.
 
 A structural regression test now parses `app.py` and fails if a future
 `scope="fragment"` rerun is placed outside an `@st.fragment`-decorated function.
-# Federal_Bureau_Of_Framing
+
+</details>
+
+---
+
+<div align="center">
+
+### Federal Bureau of Framing
+
+**Consistent product framing. Inspectable decisions. Human-controlled final output.**
+
+Community Non-Commercial License v1.0 · Copyright © 2026 Cyanex
+
+</div>
