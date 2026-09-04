@@ -1,0 +1,232 @@
+{
+  "version": "7.3.1",
+  "source_of_truth": "profile_config.py",
+  "generated_file": true,
+  "crop_range": {
+    "min": 0.0,
+    "max": 0.45
+  },
+  "profiles": {
+    "tall": {
+      "target_height": 0.8,
+      "max_width": 0.66,
+      "alignment": "bottom_center",
+      "baseline": 0.91
+    },
+    "boxy": {
+      "target_height": 0.72,
+      "max_width": 0.74,
+      "alignment": "bottom_center",
+      "baseline": 0.89
+    },
+    "wide": {
+      "target_width": 0.82,
+      "max_height": 0.62,
+      "alignment": "center"
+    },
+    "flat": {
+      "target_width": 0.84,
+      "max_height": 0.44,
+      "alignment": "center"
+    },
+    "compact": {
+      "target_height": 0.7,
+      "max_width": 0.68,
+      "alignment": "bottom_center",
+      "baseline": 0.89
+    }
+  },
+  "amazon_a_profiles": {
+    "tall": {
+      "target_height": 0.88,
+      "max_width": 0.82,
+      "alignment": "bottom_center",
+      "baseline": 0.94,
+      "amazon_axis": "height",
+      "amazon_description": "Lock height; natural left/right padding."
+    },
+    "boxy": {
+      "target_height": 0.84,
+      "max_width": 0.84,
+      "alignment": "center",
+      "amazon_axis": "envelope",
+      "amazon_description": "Balanced padding on all four sides."
+    },
+    "wide": {
+      "target_width": 0.9,
+      "max_height": 0.68,
+      "alignment": "center",
+      "amazon_axis": "width",
+      "amazon_description": "Lock width; natural top/bottom padding."
+    },
+    "flat": {
+      "target_width": 0.9,
+      "max_height": 0.5,
+      "alignment": "center",
+      "amazon_axis": "width",
+      "amazon_description": "Lock width; generous top/bottom air."
+    },
+    "compact": {
+      "target_height": 0.8,
+      "max_width": 0.8,
+      "alignment": "center",
+      "amazon_axis": "envelope",
+      "amazon_description": "Balanced compact envelope."
+    }
+  },
+  "category_map": {
+    "Air conditioner": "wide",
+    "Blender": "compact",
+    "Cart / trolley": "wide",
+    "Coffee machine": "boxy",
+    "Citrus press": "boxy",
+    "Cooktop": "flat",
+    "Dishwasher": "tall",
+    "Freezer": "tall",
+    "Hob": "flat",
+    "Hood": "wide",
+    "Ice cream maker": "wide",
+    "Ice machine": "boxy",
+    "Juicer": "boxy",
+    "Kettle": "compact",
+    "Laundry equipment": "boxy",
+    "Microwave": "boxy",
+    "Oven": "boxy",
+    "Refrigerator": "tall",
+    "Vacuum cleaner": "boxy",
+    "Waffle maker": "wide",
+    "Water dispenser": "tall",
+    "Water heater": "tall"
+  },
+  "category_standards": {
+    "Air conditioner": {
+      "target_width": 0.82,
+      "max_height": 0.58,
+      "alignment": "center"
+    },
+    "Coffee machine": {
+      "target_height": 0.72,
+      "max_width": 0.74,
+      "alignment": "bottom_center",
+      "baseline": 0.89
+    },
+    "Citrus press": {
+      "target_height": 0.78,
+      "max_width": 0.76,
+      "alignment": "center"
+    },
+    "Cooktop": {
+      "target_width": 0.84,
+      "max_height": 0.46,
+      "alignment": "center"
+    },
+    "Dishwasher": {
+      "target_height": 0.79,
+      "max_width": 0.7,
+      "alignment": "bottom_center",
+      "baseline": 0.91
+    },
+    "Freezer": {
+      "target_height": 0.81,
+      "max_width": 0.68,
+      "alignment": "bottom_center",
+      "baseline": 0.92
+    },
+    "Hob": {
+      "target_width": 0.84,
+      "max_height": 0.46,
+      "alignment": "center"
+    },
+    "Hood": {
+      "target_width": 0.82,
+      "max_height": 0.68,
+      "alignment": "center"
+    },
+    "Ice cream maker": {
+      "target_width": 0.82,
+      "max_height": 0.72,
+      "alignment": "center"
+    },
+    "Juicer": {
+      "target_height": 0.8,
+      "max_width": 0.8,
+      "alignment": "center"
+    },
+    "Microwave": {
+      "target_height": 0.67,
+      "max_width": 0.78,
+      "alignment": "center"
+    },
+    "Oven": {
+      "target_height": 0.72,
+      "max_width": 0.76,
+      "alignment": "center"
+    },
+    "Refrigerator": {
+      "target_height": 0.82,
+      "max_width": 0.66,
+      "alignment": "bottom_center",
+      "baseline": 0.92
+    },
+    "Water heater": {
+      "target_height": 0.78,
+      "max_width": 0.68,
+      "alignment": "center"
+    },
+    "Cart / trolley": {
+      "target_width": 0.78,
+      "max_height": 0.7,
+      "alignment": "center"
+    },
+    "Ice machine": {
+      "target_height": 0.72,
+      "max_width": 0.76,
+      "alignment": "bottom_center",
+      "baseline": 0.9
+    },
+    "Laundry equipment": {
+      "target_height": 0.78,
+      "max_width": 0.74,
+      "alignment": "bottom_center",
+      "baseline": 0.91
+    },
+    "Vacuum cleaner": {
+      "target_height": 0.78,
+      "max_width": 0.8,
+      "alignment": "center"
+    },
+    "Waffle maker": {
+      "target_width": 0.82,
+      "max_height": 0.72,
+      "alignment": "center"
+    },
+    "Water dispenser": {
+      "target_height": 0.8,
+      "max_width": 0.66,
+      "alignment": "bottom_center",
+      "baseline": 0.91
+    }
+  },
+  "category_anchor_policy": {
+    "Air conditioner": "full_center",
+    "Cart / trolley": "full_center",
+    "Coffee machine": "primary",
+    "Citrus press": "full_center",
+    "Cooktop": "full_center",
+    "Dishwasher": "primary",
+    "Freezer": "primary",
+    "Hob": "full_center",
+    "Hood": "visual_center",
+    "Ice cream maker": "full_center",
+    "Ice machine": "primary",
+    "Juicer": "full_center",
+    "Laundry equipment": "primary",
+    "Microwave": "full_center",
+    "Oven": "full_center",
+    "Refrigerator": "primary",
+    "Vacuum cleaner": "full_center",
+    "Waffle maker": "full_center",
+    "Water dispenser": "primary",
+    "Water heater": "full_center"
+  }
+}

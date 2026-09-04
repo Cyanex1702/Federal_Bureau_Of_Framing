@@ -1,0 +1,750 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+      color: #111827;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    #root {
+      width: 100%;
+      padding: 2px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(210px, .75fr);
+      gap: 12px;
+      align-items: start;
+      width: 100%;
+    }
+
+    .canvas-wrap,
+    .control-panel {
+      min-width: 0;
+    }
+
+    .hint {
+      font-size: 12px;
+      line-height: 1.4;
+      color: #4b5563;
+      margin: 0 0 7px;
+    }
+
+    .stage {
+      position: relative;
+      width: 100%;
+      max-width: 590px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      background:
+        linear-gradient(45deg, #f8fafc 25%, transparent 25%) 0 0 / 18px 18px,
+        linear-gradient(-45deg, #f8fafc 25%, transparent 25%) 0 0 / 18px 18px,
+        linear-gradient(45deg, transparent 75%, #f8fafc 75%) 0 0 / 18px 18px,
+        linear-gradient(-45deg, transparent 75%, #f8fafc 75%) 0 0 / 18px 18px,
+        #fff;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      touch-action: none;
+      user-select: none;
+    }
+
+    .center-x,
+    .center-y {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(59,130,246,.15);
+      z-index: 1;
+    }
+
+    .center-x {
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+    }
+
+    .center-y {
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+    }
+
+    .stencil {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .product-box {
+      position: absolute;
+      z-index: 4;
+      cursor: grab;
+      border: 1.5px dashed rgba(37,99,235,.95);
+      touch-action: none;
+    }
+
+    .product-box.dragging {
+      cursor: grabbing;
+      border-style: solid;
+    }
+
+    .product {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .crop-frame {
+      position: absolute;
+      pointer-events: none;
+      border: 1.5px dashed rgba(220, 38, 38, .9);
+      background: rgba(220, 38, 38, .035);
+      z-index: 5;
+    }
+
+    .section-title {
+      margin: 14px 0 7px;
+      padding-top: 9px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      font-weight: 750;
+    }
+
+    .handle {
+      position: absolute;
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      background: white;
+      border: 2px solid #2563eb;
+      box-shadow: 0 1px 5px rgba(0,0,0,.22);
+      z-index: 6;
+    }
+
+    .handle.nw { left: -9px; top: -9px; cursor: nwse-resize; }
+    .handle.ne { right: -9px; top: -9px; cursor: nesw-resize; }
+    .handle.sw { left: -9px; bottom: -9px; cursor: nesw-resize; }
+    .handle.se { right: -9px; bottom: -9px; cursor: nwse-resize; }
+
+    .control-panel {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px;
+      background: rgba(248,250,252,.96);
+    }
+
+    .control-panel h3 {
+      margin: 0 0 4px;
+      font-size: 14px;
+    }
+
+    .control-panel .sub {
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .control {
+      margin: 0 0 13px;
+    }
+
+    .control label {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 650;
+      margin-bottom: 5px;
+    }
+
+    .value {
+      color: #2563eb;
+      font-variant-numeric: tabular-nums;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin: 0;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-top: 4px;
+    }
+
+    button {
+      width: 100%;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      color: #111827;
+      border-radius: 7px;
+      padding: 8px 9px;
+      font-size: 12px;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    button:hover { background: #f1f5f9; }
+
+    .readout {
+      margin-top: 9px;
+      border-top: 1px solid #e5e7eb;
+      padding-top: 8px;
+      color: #6b7280;
+      font-size: 11px;
+      line-height: 1.5;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @media (max-width: 720px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .stage {
+        max-width: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<div id="root">
+  <div class="workspace">
+    <div class="canvas-wrap">
+      <p class="hint">
+        <b>Drag the appliance</b> to move it. Drag a <b>blue corner</b> to resize it proportionally.
+        The faded image is your stencil.
+      </p>
+
+      <div class="stage" id="stage">
+        <div class="center-x"></div>
+        <div class="center-y"></div>
+
+        <img class="stencil" id="stencil" alt="">
+
+        <div class="product-box" id="productBox">
+          <img class="product" id="product" alt="">
+          <div class="crop-frame" id="cropFrame"></div>
+          <div class="handle nw" data-corner="nw"></div>
+          <div class="handle ne" data-corner="ne"></div>
+          <div class="handle sw" data-corner="sw"></div>
+          <div class="handle se" data-corner="se"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-panel">
+      <h3>Quick controls</h3>
+      <div class="sub">
+        These controls edit the same box as dragging the product. They update visually first,
+        then send the finished change back to FBF.
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Zoom / size</span>
+          <span class="value" id="sizeValue">100%</span>
+        </label>
+        <input id="size" type="range" min="55" max="175" step="0.5" value="100">
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Move left / right</span>
+          <span class="value" id="xValue">0.0%</span>
+        </label>
+        <input id="xMove" type="range" min="-35" max="35" step="0.25" value="0">
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Move up / down</span>
+          <span class="value" id="yValue">0.0%</span>
+        </label>
+        <input id="yMove" type="range" min="-35" max="35" step="0.25" value="0">
+      </div>
+
+      <div class="control">
+        <label>
+          <span>Stencil visibility</span>
+          <span class="value" id="opacityValue">24%</span>
+        </label>
+        <input id="opacity" type="range" min="0" max="0.8" step="0.05" value="0.24">
+      </div>
+
+      <div class="section-title">✂ Crop / trim product</div>
+      <div class="sub">
+        Trim an unwanted edge or object from the detected product. Red guides show what will remain.
+      </div>
+
+      <div class="control">
+        <label><span>Crop left</span><span class="value" id="cropLeftValue">0%</span></label>
+        <input id="cropLeft" type="range" min="0" max="45" step="0.5" value="0">
+      </div>
+      <div class="control">
+        <label><span>Crop right</span><span class="value" id="cropRightValue">0%</span></label>
+        <input id="cropRight" type="range" min="0" max="45" step="0.5" value="0">
+      </div>
+      <div class="control">
+        <label><span>Crop top</span><span class="value" id="cropTopValue">0%</span></label>
+        <input id="cropTop" type="range" min="0" max="45" step="0.5" value="0">
+      </div>
+      <div class="control">
+        <label><span>Crop bottom</span><span class="value" id="cropBottomValue">0%</span></label>
+        <input id="cropBottom" type="range" min="0" max="45" step="0.5" value="0">
+      </div>
+
+      <div class="button-row">
+        <button id="center" type="button">Center</button>
+        <button id="reset" type="button">Reset</button>
+      </div>
+
+      <div class="readout" id="readout"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const root = document.getElementById("root");
+  const stage = document.getElementById("stage");
+  const productBox = document.getElementById("productBox");
+  const product = document.getElementById("product");
+  const stencil = document.getElementById("stencil");
+  const cropFrame = document.getElementById("cropFrame");
+
+  const size = document.getElementById("size");
+  const xMove = document.getElementById("xMove");
+  const yMove = document.getElementById("yMove");
+  const opacity = document.getElementById("opacity");
+  const cropLeft = document.getElementById("cropLeft");
+  const cropRight = document.getElementById("cropRight");
+  const cropTop = document.getElementById("cropTop");
+  const cropBottom = document.getElementById("cropBottom");
+
+  const sizeValue = document.getElementById("sizeValue");
+  const xValue = document.getElementById("xValue");
+  const yValue = document.getElementById("yValue");
+  const opacityValue = document.getElementById("opacityValue");
+  const cropLeftValue = document.getElementById("cropLeftValue");
+  const cropRightValue = document.getElementById("cropRightValue");
+  const cropTopValue = document.getElementById("cropTopValue");
+  const cropBottomValue = document.getElementById("cropBottomValue");
+
+  const centerButton = document.getElementById("center");
+  const resetButton = document.getElementById("reset");
+  const readout = document.getElementById("readout");
+
+  let state = {x: .2, y: .2, w: .6, h: .6};
+  let initial = {...state};
+  let crop = {left: 0, right: 0, top: 0, bottom: 0};
+  let initialCrop = {...crop};
+  let gesture = null;
+  let ready = false;
+  let lastResetToken = null;
+  let lastFrameHeight = 0;
+
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+
+  function send(type, payload = {}) {
+    window.parent.postMessage({
+      isStreamlitMessage: true,
+      type,
+      ...payload
+    }, "*");
+  }
+
+  // IMPORTANT:
+  // Never use documentElement.scrollHeight here. The iframe height itself can
+  // influence scrollHeight and create a positive feedback loop ("infinite page").
+  function syncFrameHeight() {
+    requestAnimationFrame(() => {
+      const measured = Math.ceil(root.getBoundingClientRect().height + 8);
+      if (Math.abs(measured - lastFrameHeight) >= 2) {
+        lastFrameHeight = measured;
+        send("streamlit:setFrameHeight", {height: measured});
+      }
+    });
+  }
+
+  function centerOf(box) {
+    return {
+      x: box.x + box.w / 2,
+      y: box.y + box.h / 2
+    };
+  }
+
+  function scaleBoxAroundCenter(box, factor) {
+    const c = centerOf(box);
+    let w = initial.w * factor;
+    let h = initial.h * factor;
+
+    const maxFactorX = 1 / Math.max(initial.w, .0001);
+    const maxFactorY = 1 / Math.max(initial.h, .0001);
+    const maxFactor = Math.min(maxFactorX, maxFactorY);
+    const safeFactor = clamp(factor, .25, maxFactor);
+
+    w = initial.w * safeFactor;
+    h = initial.h * safeFactor;
+
+    return {
+      x: clamp(c.x - w / 2, 0, 1 - w),
+      y: clamp(c.y - h / 2, 0, 1 - h),
+      w,
+      h
+    };
+  }
+
+  function updateControlsFromState() {
+    const initialCenter = centerOf(initial);
+    const currentCenter = centerOf(state);
+
+    const factorW = state.w / Math.max(initial.w, .0001);
+    const factorH = state.h / Math.max(initial.h, .0001);
+    const factor = (factorW + factorH) / 2;
+
+    size.value = String(clamp(factor * 100, 55, 175));
+    xMove.value = String(clamp((currentCenter.x - initialCenter.x) * 100, -35, 35));
+    yMove.value = String(clamp((currentCenter.y - initialCenter.y) * 100, -35, 35));
+
+    sizeValue.textContent = `${Number(size.value).toFixed(1)}%`;
+    xValue.textContent = `${Number(xMove.value).toFixed(2)}%`;
+    yValue.textContent = `${Number(yMove.value).toFixed(2)}%`;
+  }
+
+  function renderCrop() {
+    const left = clamp(crop.left * 100, 0, 45);
+    const right = clamp(crop.right * 100, 0, 45);
+    const top = clamp(crop.top * 100, 0, 45);
+    const bottom = clamp(crop.bottom * 100, 0, 45);
+
+    product.style.clipPath = `inset(${top}% ${right}% ${bottom}% ${left}%)`;
+    cropFrame.style.left = `${left}%`;
+    cropFrame.style.right = `${right}%`;
+    cropFrame.style.top = `${top}%`;
+    cropFrame.style.bottom = `${bottom}%`;
+
+    cropLeft.value = String(left);
+    cropRight.value = String(right);
+    cropTop.value = String(top);
+    cropBottom.value = String(bottom);
+    cropLeftValue.textContent = `${left.toFixed(1)}%`;
+    cropRightValue.textContent = `${right.toFixed(1)}%`;
+    cropTopValue.textContent = `${top.toFixed(1)}%`;
+    cropBottomValue.textContent = `${bottom.toFixed(1)}%`;
+  }
+
+  function renderState() {
+    productBox.style.left = `${state.x * 100}%`;
+    productBox.style.top = `${state.y * 100}%`;
+    productBox.style.width = `${state.w * 100}%`;
+    productBox.style.height = `${state.h * 100}%`;
+
+    updateControlsFromState();
+    renderCrop();
+
+    const c = centerOf(state);
+    readout.textContent =
+      `Center ${ (c.x*100).toFixed(1) }%, ${ (c.y*100).toFixed(1) }% · ` +
+      `Box ${ (state.w*100).toFixed(1) }% × ${ (state.h*100).toFixed(1) }%`;
+  }
+
+  function emitValue(reason = "edit") {
+    send("streamlit:setComponentValue", {
+      dataType: "json",
+      value: {
+        x: Number(state.x.toFixed(6)),
+        y: Number(state.y.toFixed(6)),
+        w: Number(state.w.toFixed(6)),
+        h: Number(state.h.toFixed(6)),
+        crop_left: Number(crop.left.toFixed(6)),
+        crop_right: Number(crop.right.toFixed(6)),
+        crop_top: Number(crop.top.toFixed(6)),
+        crop_bottom: Number(crop.bottom.toFixed(6)),
+        reason,
+        event_id: `${Date.now()}_${Math.random().toString(36).slice(2)}`
+      }
+    });
+  }
+
+  function pointFromEvent(e) {
+    const r = stage.getBoundingClientRect();
+    return {
+      x: clamp((e.clientX - r.left) / r.width, 0, 1),
+      y: clamp((e.clientY - r.top) / r.height, 0, 1)
+    };
+  }
+
+  function beginMove(e) {
+    if (e.target.classList.contains("handle")) return;
+
+    e.preventDefault();
+    productBox.setPointerCapture(e.pointerId);
+    productBox.classList.add("dragging");
+
+    gesture = {
+      kind: "move",
+      pointerId: e.pointerId,
+      startPointer: pointFromEvent(e),
+      startState: {...state}
+    };
+  }
+
+  function beginResize(e) {
+    e.stopPropagation();
+    e.preventDefault();
+
+    const corner = e.target.dataset.corner;
+    const p = pointFromEvent(e);
+    const s = {...state};
+
+    let opposite;
+    if (corner === "nw") opposite = {x: s.x + s.w, y: s.y + s.h};
+    if (corner === "ne") opposite = {x: s.x, y: s.y + s.h};
+    if (corner === "sw") opposite = {x: s.x + s.w, y: s.y};
+    if (corner === "se") opposite = {x: s.x, y: s.y};
+
+    let maxScale = 3;
+    if (corner === "se") maxScale = Math.min((1-opposite.x)/s.w, (1-opposite.y)/s.h);
+    if (corner === "nw") maxScale = Math.min(opposite.x/s.w, opposite.y/s.h);
+    if (corner === "ne") maxScale = Math.min((1-opposite.x)/s.w, opposite.y/s.h);
+    if (corner === "sw") maxScale = Math.min(opposite.x/s.w, (1-opposite.y)/s.h);
+
+    const baseDistance = Math.max(
+      .0001,
+      Math.hypot(p.x - opposite.x, p.y - opposite.y)
+    );
+
+    e.target.setPointerCapture(e.pointerId);
+    productBox.classList.add("dragging");
+
+    gesture = {
+      kind: "resize",
+      pointerId: e.pointerId,
+      corner,
+      startState: s,
+      opposite,
+      baseDistance,
+      minScale: .25,
+      maxScale: Math.max(.25, maxScale)
+    };
+  }
+
+  function moveGesture(e) {
+    if (!gesture || e.pointerId !== gesture.pointerId) return;
+
+    e.preventDefault();
+    const p = pointFromEvent(e);
+
+    if (gesture.kind === "move") {
+      const dx = p.x - gesture.startPointer.x;
+      const dy = p.y - gesture.startPointer.y;
+      const s = gesture.startState;
+
+      state.x = clamp(s.x + dx, 0, 1 - s.w);
+      state.y = clamp(s.y + dy, 0, 1 - s.h);
+      state.w = s.w;
+      state.h = s.h;
+
+      renderState();
+      return;
+    }
+
+    const g = gesture;
+    const s = g.startState;
+    const dist = Math.hypot(
+      p.x - g.opposite.x,
+      p.y - g.opposite.y
+    );
+
+    const scale = clamp(
+      dist / g.baseDistance,
+      g.minScale,
+      g.maxScale
+    );
+
+    const newW = s.w * scale;
+    const newH = s.h * scale;
+
+    if (g.corner === "se") {
+      state = {x: g.opposite.x, y: g.opposite.y, w: newW, h: newH};
+    } else if (g.corner === "nw") {
+      state = {x: g.opposite.x - newW, y: g.opposite.y - newH, w: newW, h: newH};
+    } else if (g.corner === "ne") {
+      state = {x: g.opposite.x, y: g.opposite.y - newH, w: newW, h: newH};
+    } else if (g.corner === "sw") {
+      state = {x: g.opposite.x - newW, y: g.opposite.y, w: newW, h: newH};
+    }
+
+    state.x = clamp(state.x, 0, 1 - state.w);
+    state.y = clamp(state.y, 0, 1 - state.h);
+
+    renderState();
+  }
+
+  function endGesture(e) {
+    if (!gesture || e.pointerId !== gesture.pointerId) return;
+
+    productBox.classList.remove("dragging");
+    gesture = null;
+    renderState();
+    emitValue("drag");
+  }
+
+  productBox.addEventListener("pointerdown", beginMove);
+  productBox.addEventListener("pointermove", moveGesture);
+  productBox.addEventListener("pointerup", endGesture);
+  productBox.addEventListener("pointercancel", endGesture);
+
+  document.querySelectorAll(".handle").forEach(handle => {
+    handle.addEventListener("pointerdown", beginResize);
+    handle.addEventListener("pointermove", moveGesture);
+    handle.addEventListener("pointerup", endGesture);
+    handle.addEventListener("pointercancel", endGesture);
+  });
+
+  size.addEventListener("input", () => {
+    const factor = Number(size.value) / 100;
+    state = scaleBoxAroundCenter(state, factor);
+    renderState();
+  });
+  size.addEventListener("change", () => emitValue("size"));
+
+  xMove.addEventListener("input", () => {
+    const initialCenter = centerOf(initial);
+    const currentCenter = centerOf(state);
+    const targetCenterX = initialCenter.x + Number(xMove.value) / 100;
+
+    state.x = clamp(targetCenterX - state.w / 2, 0, 1 - state.w);
+    state.y = clamp(currentCenter.y - state.h / 2, 0, 1 - state.h);
+    renderState();
+  });
+  xMove.addEventListener("change", () => emitValue("x"));
+
+  yMove.addEventListener("input", () => {
+    const initialCenter = centerOf(initial);
+    const currentCenter = centerOf(state);
+    const targetCenterY = initialCenter.y + Number(yMove.value) / 100;
+
+    state.x = clamp(currentCenter.x - state.w / 2, 0, 1 - state.w);
+    state.y = clamp(targetCenterY - state.h / 2, 0, 1 - state.h);
+    renderState();
+  });
+  yMove.addEventListener("change", () => emitValue("y"));
+
+  opacity.addEventListener("input", () => {
+    const v = Number(opacity.value);
+    stencil.style.opacity = String(v);
+    opacityValue.textContent = `${Math.round(v*100)}%`;
+  });
+
+  function bindCropSlider(element, side) {
+    element.addEventListener("input", () => {
+      crop[side] = clamp(Number(element.value) / 100, 0, .45);
+      renderState();
+    });
+    element.addEventListener("change", () => emitValue("crop"));
+  }
+
+  bindCropSlider(cropLeft, "left");
+  bindCropSlider(cropRight, "right");
+  bindCropSlider(cropTop, "top");
+  bindCropSlider(cropBottom, "bottom");
+
+  centerButton.addEventListener("click", () => {
+    state.x = clamp(.5 - state.w / 2, 0, 1 - state.w);
+    state.y = clamp(.5 - state.h / 2, 0, 1 - state.h);
+    renderState();
+    emitValue("center");
+  });
+
+  resetButton.addEventListener("click", () => {
+    state = {...initial};
+    crop = {...initialCrop};
+    renderState();
+    emitValue("reset");
+  });
+
+  window.addEventListener("message", event => {
+    const data = event.data || {};
+    if (data.type !== "streamlit:render") return;
+
+    const args = data.args || {};
+    const box = args.initial_box || {};
+    const resetToken = String(args.reset_token || "");
+
+    // Do NOT reset the transform on every Streamlit render. The old version
+    // did this and visibly snapped the appliance back after every drag.
+    if (lastResetToken !== resetToken) {
+      state = {
+        x: Number(box.x ?? .2),
+        y: Number(box.y ?? .2),
+        w: Number(box.w ?? .6),
+        h: Number(box.h ?? .6)
+      };
+      initial = {...state};
+
+      const incomingCrop = args.initial_crop || {};
+      crop = {
+        left: clamp(Number(incomingCrop.left ?? 0), 0, .45),
+        right: clamp(Number(incomingCrop.right ?? 0), 0, .45),
+        top: clamp(Number(incomingCrop.top ?? 0), 0, .45),
+        bottom: clamp(Number(incomingCrop.bottom ?? 0), 0, .45)
+      };
+      initialCrop = {...crop};
+      lastResetToken = resetToken;
+    }
+
+    product.src = args.product_image
+      ? `data:image/png;base64,${args.product_image}`
+      : "";
+
+    if (args.stencil_image) {
+      stencil.src = `data:image/png;base64,${args.stencil_image}`;
+      stencil.style.display = "block";
+    } else {
+      stencil.removeAttribute("src");
+      stencil.style.display = "none";
+    }
+
+    const stencilOpacity = Number(args.stencil_opacity ?? .24);
+    opacity.value = String(stencilOpacity);
+    stencil.style.opacity = String(stencilOpacity);
+    opacityValue.textContent = `${Math.round(stencilOpacity*100)}%`;
+
+    renderState();
+    syncFrameHeight();
+  });
+
+  if (!ready) {
+    ready = true;
+    send("streamlit:componentReady", {apiVersion: 1});
+    syncFrameHeight();
+  }
+})();
+</script>
+</body>
+</html>

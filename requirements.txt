@@ -1,0 +1,11 @@
+streamlit>=1.56
+Pillow>=10.3
+numpy>=1.26
+opencv-python-headless>=4.10
+requests>=2.32
+beautifulsoup4>=4.12
+
+# Optional AI background removal:
+# rembg>=2.0.57
+# onnxruntime>=1.18
+XlsxWriter>=3.2
